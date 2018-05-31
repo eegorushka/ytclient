@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+  "name": "Ytuber",
+  "version": "1.0",
+  "permissions":  ["contextMenus", "*://*/*", "storage"],
+      "browser_action": {
+        "default_title": "Ytuber",
+        "default_popup": "extention.html"
+    },
+    "background": {
+      "scripts": ["script.js", "jquery-3.1.1.js", "CookieHelper.js"]
+    }
+}
