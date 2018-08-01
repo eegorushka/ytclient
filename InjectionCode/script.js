@@ -53,12 +53,8 @@ function injectedCodeWorks() {
 }
 
 function start() {
-    $('#api_key').attr("disabled", false);
-
     $('#start').on('click', function () {
         $('p.error').html('');
-
-        $('#start').attr("disabled", true);
 
         var api_key = $('#api_key').val();
         setCookie("api_key", api_key);
@@ -71,6 +67,9 @@ function start() {
 }
 
 function continuation(time) {
+    $('#start').hide();
+    $('#stop').show();
+
     var api_key = getCookie("api_key");
 
     var fullUrl = url + api_key;
@@ -99,6 +98,9 @@ function stop() {
 $(function () {
     $('#stop').on('click', function () {
         stop();
+        $('#start').show();
+        $('#stop').hide();
+        $('#api_key').attr("disabled", false);
     });
     injectedCodeWorks();
 });
