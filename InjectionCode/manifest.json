@@ -1,0 +1,24 @@
+{
+  "name": "Ytuber",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Injecting stuff",
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "Ytuber!"
+  },
+  "permissions": [
+    "background",
+    "https://*/*",
+    "http://*/*",
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
+  "web_accessible_resources": [ "jquery-3.1.1.js", "inject.js"]
+}
