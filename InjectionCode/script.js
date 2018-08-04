@@ -2,7 +2,9 @@
 
 var countdownInterval;
 
-function countdown(time){
+function countdown(time) {
+    clearInterval(countdownInterval);
+
     $(".countdownGroup").show();
 
     countdownInterval = setInterval(function () {
@@ -14,6 +16,10 @@ function countdown(time){
     }, 1000);
 }
 
+function stopTimer() {
+    clearInterval(countdownInterval);
+    $(".countdownTimer").text('');
+}
 function openVideo(fullUrl) {
     $.ajax({
         type: "GET",
@@ -25,7 +31,7 @@ function openVideo(fullUrl) {
 
                 location.replace(youtubeUrl);
 
-                chrome.storage.sync.set({ 'time': time });
+                chrome.storage.sync.set({ 'time': time, 'youtubeUrl': youtubeUrl});
             }
             else {
                 $('p.error').html('Указан некорректный API-ключ');
@@ -40,29 +46,20 @@ function openVideo(fullUrl) {
 
 function injectedCodeWorks() {
 
-    chrome.storage.sync.get(['time'], function (result) {
+    chrome.storage.sync.get(['time', 'youtubeUrl'], function (result) {
         var time = result.time;
+        var youtubeUrl = result.youtubeUrl;
 
-        if (time) {
-            continuation(time);
+        if (time && youtubeUrl) {
+            var currentUrl = location.href;
+
+            if (currentUrl == youtubeUrl) {
+                continuation(time);
+            }
+            else {
+                stop();
+            }
         }
-        else {
-            start();
-        }
-    });
-}
-
-function start() {
-    $('#start').on('click', function () {
-        $('p.error').html('');
-
-        var api_key = $('#api_key').val();
-        setCookie("api_key", api_key);
-
-        var fullUrl = url + api_key;
-
-        openVideo(fullUrl);
-
     });
 }
 
@@ -87,20 +84,43 @@ function continuation(time) {
     }, time);
 }
 
-function stop() {
-    chrome.storage.sync.clear(function () {
+function removeFromStorage() {
+    chrome.storage.sync.remove(['time', 'youtubeUrl'], function () {
         var error = chrome.runtime.lastError;
         if (error) {
             console.error(error);
         }
     });
 }
+
+function stop() {
+    removeFromStorage();
+    stopTimer();
+    $('#start').show();
+    $('#stop').hide();
+    $('#api_key').attr("disabled", false);
+    $('#api_key').attr("disabled", false);
+}
+
 $(function () {
     $('#stop').on('click', function () {
         stop();
-        $('#start').show();
-        $('#stop').hide();
-        $('#api_key').attr("disabled", false);
+    });
+    $('#start').on('click', function () {
+        $('p.error').html('');
+
+        var api_key = $('#api_key').val();
+        setCookie("api_key", api_key);
+
+        var fullUrl = url + api_key;
+
+        openVideo(fullUrl);
+
+    });
+    $("video").on("pause", function (e) {
+    });
+
+    $("video").on("start", function (e) {
     });
     injectedCodeWorks();
 });

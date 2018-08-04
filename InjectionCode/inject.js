@@ -1,4 +1,3 @@
-// this is the code which will be injected into a given page...
 (function () {
     if (!$('#main').length) {
         var div = document.createElement('div');
