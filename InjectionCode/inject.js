@@ -7,6 +7,7 @@
         document.body.appendChild(div);
         div.setAttribute('id', "main");
 
+
         $('#main').append("<p><input type='text' id='api_key' placeholder='API- key' /></p>");
         $('#main').append("<button id='start'></button>");
         $('#main').append("<button id='stop'></button>");

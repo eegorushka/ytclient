@@ -14,6 +14,7 @@ function countdown(time) {
     }, 1000);
 }
 
+
 function stopTimer() {
     clearInterval(countdownInterval);
     $(".countdownTimer").text('');
