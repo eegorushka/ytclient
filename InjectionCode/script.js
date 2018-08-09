@@ -17,7 +17,7 @@ function countdown(time) {
 
 function stopTimer() {
     clearInterval(countdownInterval);
-    $(".countdownTimer").text('');
+    //$(".countdownTimer").text('');
 }
 function openVideo(fullUrl) {
     $.ajax({
