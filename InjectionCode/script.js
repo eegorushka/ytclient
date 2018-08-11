@@ -5,8 +5,6 @@ var countdownInterval;
 function countdown(time) {
     clearInterval(countdownInterval);
 
-    $(".countdownGroup").show();
-
     countdownInterval = setInterval(function () {
         console.log(time);
         time = time-1000;
@@ -16,9 +14,10 @@ function countdown(time) {
     }, 1000);
 }
 
+
 function stopTimer() {
     clearInterval(countdownInterval);
-    $(".countdownTimer").text('');
+    //$(".countdownTimer").text('');
 }
 function openVideo(fullUrl) {
     $.ajax({
@@ -78,7 +77,6 @@ function continuation(time) {
 
         // отключение обратного отсчета
         clearInterval(countdownInterval);
-        $(".countdownGroup").hide();
 
         openVideo(fullUrl);
     }, time);
