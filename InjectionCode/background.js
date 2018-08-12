@@ -1,12 +1,22 @@
-chrome.tabs.onUpdated.addListener(function() {
+var isInjected = false;
+var tabId;
+
+chrome.tabs.onUpdated.addListener(function () {
     chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
         var url = tabs[0].url;
         var youtubeHost = /www.youtube.com/;
-        if (url.match(youtubeHost)) {
+        if (url.match(youtubeHost) && !isInjected) {
             loadFile(tabs[0].id);
+            isInjected = true;
+            tabId = tabs[0].id;
         };
     });
 });
+/*chrome.tabs.onRemoved.addListener(function (tabId) {
+    if (tabId && tabId == tabs[0].id) {
+        isInjected = false;
+    }
+}*/
 
 function loadFile(tabId) {
     chrome.tabs.executeScript(tabId, { file: "jquery-3.1.1.js" }, function () {
